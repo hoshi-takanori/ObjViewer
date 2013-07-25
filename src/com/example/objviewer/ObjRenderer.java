@@ -5,6 +5,7 @@ import javax.microedition.khronos.opengles.GL10;
 import rajawali.BaseObject3D;
 import rajawali.lights.DirectionalLight;
 import rajawali.materials.DiffuseMaterial;
+import rajawali.math.Quaternion;
 import rajawali.parser.AParser.ParsingException;
 import rajawali.parser.ObjParser;
 import rajawali.renderer.RajawaliRenderer;
@@ -13,10 +14,13 @@ import android.content.Context;
 public class ObjRenderer extends RajawaliRenderer {
 	private DirectionalLight mLight;
 	private BaseObject3D mObject;
+	private Quaternion mOrientation;
+	private Quaternion mFling;
 
 	public ObjRenderer(Context context) {
 		super(context);
 		setFrameRate(30);
+		initOrientation();
 	}
 
 	@Override
@@ -30,11 +34,15 @@ public class ObjRenderer extends RajawaliRenderer {
 
 	@Override
 	public void onDrawFrame(GL10 glUnused) {
-		super.onDrawFrame(glUnused);
+		if (mFling != null) {
+			multiplyOrientation(mFling);
+		}
 
 		if (mObject != null) {
-			mObject.setRotY(mObject.getRotY() + 1);
+			mObject.setOrientation(mOrientation);
 		}
+
+		super.onDrawFrame(glUnused);
 	}
 
 	public void setObject(int id) {
@@ -55,5 +63,20 @@ public class ObjRenderer extends RajawaliRenderer {
 		} catch(ParsingException e) {
 			e.printStackTrace();
 		}
+
+		initOrientation();
+		setFling(null);
+	}
+
+	public void initOrientation() {
+		mOrientation = new Quaternion();
+	}
+
+	public void multiplyOrientation(Quaternion quaternion) {
+		mOrientation.multiply(quaternion);
+	}
+
+	public void setFling(Quaternion fling) {
+		mFling = fling;
 	}
 }

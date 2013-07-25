@@ -2,7 +2,9 @@ package com.example.objviewer;
 
 import rajawali.RajawaliFragment;
 import android.os.Bundle;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -21,6 +23,15 @@ public class ObjFragment extends RajawaliFragment {
 		mRenderer = new ObjRenderer(getActivity());
 		mRenderer.setSurfaceView(mSurfaceView);
 		setRenderer(mRenderer);
+
+		final GestureDetector detector = new GestureDetector(getActivity(), new GestureListener(this));
+		mSurfaceView.setOnTouchListener(new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View view, MotionEvent event) {
+				detector.onTouchEvent(event);
+				return true;
+			}
+		});
 	}
 
 	@Override
