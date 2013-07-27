@@ -4,16 +4,16 @@
 	android:orientation="vertical"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent">
-	<fragment
-		android:name="com.example.objviewer.ObjListFragment"
-		android:id="@+id/fragment_list"
+
+	<ListView
+		android:id="@+id/list_view"
 		android:layout_width="match_parent"
 		android:layout_height="0dp"
 		android:layout_weight="1"
 	/>
-	<fragment
-		android:name="com.example.objviewer.ObjFragment"
-		android:id="@+id/fragment_obj"
+
+	<FrameLayout
+		android:id="@+id/placeholder"
 		android:layout_width="match_parent"
 		android:layout_height="0dp"
 		android:layout_weight="2"

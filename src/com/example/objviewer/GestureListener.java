@@ -6,16 +6,16 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 
 public class GestureListener extends GestureDetector.SimpleOnGestureListener {
-	private ObjFragment mFragment;
+	private ObjRenderer mRenderer;
 
-	public GestureListener(ObjFragment fragment) {
-		mFragment = fragment;
+	public GestureListener(ObjRenderer renderer) {
+		mRenderer = renderer;
 	}
 
 	public Quaternion calcQuaternion(MotionEvent event, float dx, float dy, float d) {
 		float r = FloatMath.sqrt(dx * dx + dy * dy);
-		float x = event.getX() - (mFragment.getRenderer().getViewportWidth() / 2);
-		float y = event.getY() - (mFragment.getRenderer().getViewportHeight() / 2);
+		float x = event.getX() - (mRenderer.getViewportWidth() / 2);
+		float y = event.getY() - (mRenderer.getViewportHeight() / 2);
 		float s = FloatMath.sqrt(x * x + y * y);
 		float cos = FloatMath.cos(r / d / 2);
 		float sin = FloatMath.sin(r / d / 2);
@@ -32,7 +32,7 @@ public class GestureListener extends GestureDetector.SimpleOnGestureListener {
 
 	@Override
 	public boolean onDown(MotionEvent event) {
-		mFragment.getRenderer().setFling(null);
+		mRenderer.setFling(null);
 		return true;
 	}
 
@@ -43,13 +43,13 @@ public class GestureListener extends GestureDetector.SimpleOnGestureListener {
 
 	@Override
 	public boolean onScroll(MotionEvent event1, MotionEvent event2, float distanceX, float distanceY) {
-		mFragment.getRenderer().multiplyOrientation(calcQuaternion(event2, distanceX, distanceY, 120));
+		mRenderer.multiplyOrientation(calcQuaternion(event2, distanceX, distanceY, 120));
 		return true;
 	}
 
 	@Override
 	public boolean onFling(MotionEvent event1, MotionEvent event2, float velocityX, float velocityY) {
-		mFragment.getRenderer().setFling(calcQuaternion(event2, - velocityX, - velocityY, 6000));
+		mRenderer.setFling(calcQuaternion(event2, - velocityX, - velocityY, 6000));
 		return true;
 	}
 }

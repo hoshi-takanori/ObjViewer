@@ -30,8 +30,9 @@ public class ObjRenderer extends RajawaliRenderer {
 		mLight.setColor(1.0f, 1.0f, 1.0f);
 		mLight.setPower(2);
 
-		//mCamera.setZ(6.4f);
 		mCamera.setZ(3.4f);
+
+		setObject(0);
 	}
 
 	@Override
