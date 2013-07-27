@@ -5,7 +5,7 @@ import rajawali.materials.DiffuseMaterial;
 import rajawali.primitives.Cube;
 
 public class Sandbox {
-	public static final int SIZE = 48;
+	public static final int SIZE = 16;
 	public static final int LEVEL = 16;
 
 	private int[][] data;
@@ -30,15 +30,21 @@ public class Sandbox {
 		for (int i = 0; i < SIZE; i++) {
 			for (int j = 0; j < SIZE; j++) {
 				objects[i][j] = new Cube(2.0f / SIZE);
-				objects[i][j].setX(((float) i - SIZE / 2) * 2 / SIZE);
-				objects[i][j].setY(((float) j - SIZE / 2) * 2 / SIZE);
+				objects[i][j].setX(((float) i - SIZE / 2) * 2 / SIZE + 1.0f / SIZE);
+				objects[i][j].setY(((float) j - SIZE / 2) * 2 / SIZE + 1.0f / SIZE);
 				objects[i][j].setZ((float) data[i][j] / SIZE);
 				objects[i][j].setScaleZ(data[i][j]);
 				objects[i][j].setMaterial(material);
-				objects[i][j].setColor(0xff00ff00);
+				objects[i][j].setColor(0xffffffff);
 				object.addChild(objects[i][j]);
 			}
 		}
+
+		Cylinder cylinder = new Cylinder(1.5f, 2.0f / SIZE);
+		cylinder.setZ(-1.0f / SIZE);
+		cylinder.setMaterial(material);
+		cylinder.setColor(0xffffff00);
+		object.addChild(cylinder);
 	}
 
 	public BaseObject3D getObject() {

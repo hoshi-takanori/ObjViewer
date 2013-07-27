@@ -26,11 +26,13 @@ public class ObjRenderer extends RajawaliRenderer {
 
 	@Override
 	public void initScene() {
+		setBackgroundColor(0xff00007f);
+
 		mLight = new DirectionalLight(1f, 0.2f, -1.0f);
 		mLight.setColor(1.0f, 1.0f, 1.0f);
 		mLight.setPower(2);
 
-		mCamera.setZ(3.4f);
+		mCamera.setZ(4.8f);
 
 		setObject(0);
 	}
