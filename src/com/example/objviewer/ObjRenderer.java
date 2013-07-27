@@ -14,6 +14,7 @@ import android.content.Context;
 public class ObjRenderer extends RajawaliRenderer {
 	private DirectionalLight mLight;
 	private BaseObject3D mObject;
+	private Sandbox mSandbox;
 	private Quaternion mOrientation;
 	private Quaternion mFling;
 
@@ -29,7 +30,8 @@ public class ObjRenderer extends RajawaliRenderer {
 		mLight.setColor(1.0f, 1.0f, 1.0f);
 		mLight.setPower(2);
 
-		mCamera.setZ(6.4f);
+		//mCamera.setZ(6.4f);
+		mCamera.setZ(3.4f);
 	}
 
 	@Override
@@ -41,6 +43,10 @@ public class ObjRenderer extends RajawaliRenderer {
 		if (mObject != null) {
 			mObject.setOrientation(mOrientation);
 		}
+		if (mSandbox != null) {
+			mSandbox.randomWalk();
+			mSandbox.getObject().setOrientation(mOrientation);
+		}
 
 		super.onDrawFrame(glUnused);
 	}
@@ -48,8 +54,26 @@ public class ObjRenderer extends RajawaliRenderer {
 	public void setObject(int id) {
 		if (mObject != null) {
 			removeChild(mObject);
+			mObject = null;
+		}
+		if (mSandbox != null) {
+			removeChild(mSandbox.getObject());
+			mSandbox = null;
 		}
 
+		if (id != 0) {
+			loadObject(id);
+		} else {
+			mSandbox = new Sandbox();
+			mSandbox.getObject().addLight(mLight);
+			addChild(mSandbox.getObject());
+		}
+
+		initOrientation();
+		setFling(null);
+	}
+
+	private void loadObject(int id) {
 		try {
 			ObjParser objParser = new ObjParser(mContext.getResources(), mTextureManager, id);
 			objParser.parse();
@@ -63,9 +87,6 @@ public class ObjRenderer extends RajawaliRenderer {
 		} catch(ParsingException e) {
 			e.printStackTrace();
 		}
-
-		initOrientation();
-		setFling(null);
 	}
 
 	public void initOrientation() {

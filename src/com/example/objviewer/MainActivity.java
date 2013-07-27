@@ -5,7 +5,7 @@ import android.app.Activity;
 import android.view.Menu;
 
 public class MainActivity extends Activity {
-	public static final String[] OBJS = { "cube", "monkey", "teapot" };
+	public static final String[] OBJS = { "cube", "monkey", "teapot", "sandbox" };
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +28,8 @@ public class MainActivity extends Activity {
 			fragment.getRenderer().setObject(R.raw.monkey);
 		} else if (name.equals("teapot")) {
 			fragment.getRenderer().setObject(R.raw.teapot);
+		} else {
+			fragment.getRenderer().setObject(0);
 		}
 	}
 }
